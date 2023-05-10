@@ -22,11 +22,22 @@ router.post('/', (req, res) => {
 // retorna no terminal quando é postado no postman 
 
 router.get('/:id', (req, res) => {  //espera nesse ponto um parametro id
-    console.log(req.params.id)
+    console.log(req.body)
     res.send(`ID: ${req.params.id}`)    //devolve como resposta o id solicitado
 })  
 
 //a url abaixo no postman retorna o "ID: 99"
 //localhost:3000/checklists/99
+
+
+router.put('/:id', (req, res) => {
+    console.log(req.body)
+    res.send(`PUT ID: ${req.params.id}`)
+})
+
+router.delete('/:id', (req, res) => {
+    console.log(req.body)
+    res.send(`DELETE ID: ${req.params.id}`)
+})
 
 module.exports = router;
