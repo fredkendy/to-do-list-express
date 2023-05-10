@@ -8,6 +8,10 @@ app.get('/', (req, res) => {
     res.send('<h1>Minha lista de tarefas</h1>')
 })
 
+app.get('/json', (req, res) => {    //qdo chamar /json, cai aqui (ex: localhost:3000/json)
+    res.json({title: 'Tarefa X', done: true})    //devolver no formato json
+})
+
 app.listen(3000, () => {
     console.log('Servidor foi iniciado')
 })
