@@ -3,14 +3,22 @@ const express = require('express')
 //Criando objeto de rotas
 const router = express.Router()
 
+const Checklist = require('../models/checklist');
+
 router.get('/', (req, res) => {
     console.log('Olá')
     res.send()  
 })
 
-router.post('/', (req, res) => {
-    console.log(req.body)
-    res.status(200).send(req.body)
+router.post('/', async (req, res) => {
+    let { name } = req.body //procurar name dentro de body
+    
+    try {   //se der tudo certo, devolve o checklist
+        let checklist = await Checklist.create({ name })
+        res.status(200).json(checklist)
+    } catch (error) {
+        res.status(422).json(error)
+    }
 })
 //parametro enviado no body do postman
 // {
