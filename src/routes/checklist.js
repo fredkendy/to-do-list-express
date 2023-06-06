@@ -46,14 +46,26 @@ router.get('/:id', async (req, res) => {  //espera nesse ponto um parametro id
 //localhost:3000/checklists/99
 
 
-router.put('/:id', (req, res) => {
-    console.log(req.body)
-    res.send(`PUT ID: ${req.params.id}`)
+router.put('/:id', async (req, res) => {
+    let { name } = req.body //name é o q queremos atualizar
+    
+    //postman: PUT: url local + id da task. No body: passar um name como json e send
+
+    try {
+       let checklist = await Checklist.findByIdAndUpdate(req.params.id, {name}, {new: true}) 
+       res.status(200).json(checklist)
+    } catch (error) {
+       res.status(422).json(error)
+    }
 })
 
-router.delete('/:id', (req, res) => {
-    console.log(req.body)
-    res.send(`DELETE ID: ${req.params.id}`)
+router.delete('/:id', async (req, res) => {
+    try {
+       let checklist = await Checklist.findByIdAndRemove(req.params.id) 
+       res.status(200).json(checklist)
+    } catch (error) {
+       res.status(422).json(error)
+    }
 })
 
 module.exports = router;
