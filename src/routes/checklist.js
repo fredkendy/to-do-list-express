@@ -5,9 +5,13 @@ const router = express.Router()
 
 const Checklist = require('../models/checklist');
 
-router.get('/', (req, res) => {
-    console.log('Olá')
-    res.send()  
+router.get('/', async (req, res) => {
+    try {
+        let checklists = await Checklist.find({}) //nd específico, busca tudo
+        res.status(200).json(checklists)
+    } catch (error) {
+        res.status(422).json(error)
+    }
 })
 
 router.post('/', async (req, res) => {
@@ -29,9 +33,13 @@ router.post('/', async (req, res) => {
 // }
 // retorna no terminal quando é postado no postman 
 
-router.get('/:id', (req, res) => {  //espera nesse ponto um parametro id
-    console.log(req.body)
-    res.send(`ID: ${req.params.id}`)    //devolve como resposta o id solicitado
+router.get('/:id', async (req, res) => {  //espera nesse ponto um parametro id
+    try {
+        let checklist = await Checklist.findById(req.params.id)
+        res.status(200).json(checklist)
+    } catch (error) {
+        res.status(422).json(error)
+    }
 })  
 
 //a url abaixo no postman retorna o "ID: 99"
