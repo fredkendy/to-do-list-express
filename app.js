@@ -10,6 +10,9 @@ const app = express();
 
 app.use(express.json())
 
+//Dizendo pro express que arquivos estáticos estão no public
+app.use(express.static(path.join(__dirname, 'public')))
+
 app.set('views', path.join(__dirname, 'src/views')) //'as views estão em src, views'
 app.set('view engine', 'ejs') //instalar a view engine ejs
 
