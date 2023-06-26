@@ -7,8 +7,8 @@ const rootRouter = require('./src/routes/index');
 require('./config/database');
 
 const app = express();
-
 app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
 //Dizendo pro express que arquivos estáticos estão no public
 app.use(express.static(path.join(__dirname, 'public')))
