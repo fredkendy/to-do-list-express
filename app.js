@@ -10,7 +10,7 @@ require('./config/database');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method', { methods: ['POST', 'GET'] }));
 
 //Dizendo pro express que arquivos estáticos estão no public
 app.use(express.static(path.join(__dirname, 'public')))
