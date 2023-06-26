@@ -4,7 +4,6 @@ const express = require('express')
 const router = express.Router()
 
 const Checklist = require('../models/checklist');
-const checklist = require('../models/checklist');
 
 router.get('/', async (req, res) => {
     try {
@@ -21,6 +20,15 @@ router.get('/new', async(req, res) => {
         res.status(200).render('checklists/new', { checklist: checklist })
     } catch (error) {
         res.status(500).render('pages/error', { errors: 'Erro ao carregar o formulário' })
+    }
+})
+
+router.get('/:id/edit', async(req,res) => {
+    try {
+        let checklist = await Checklist.findById(req.params.id)
+        res.status(200).render('checklists/edit', { checklist: checklist })
+    } catch (error) {
+        res.status(500).render('pages/error', { error: 'Erro ao exibir a edição Listas de tarefas' })
     }
 })
 
@@ -50,15 +58,17 @@ router.get('/:id', async (req, res) => {  //espera nesse ponto um parametro id
 
 
 router.put('/:id', async (req, res) => {
-    let { name } = req.body //name é o q queremos atualizar
+    let { name } = req.body.checklist //name é o q queremos atualizar
+    let checklist = await Checklist.findById(req.params.id)
     
     //postman: PUT: url local + id da task. No body: passar um name como json e send
 
     try {
-       let checklist = await Checklist.findByIdAndUpdate(req.params.id, {name}, {new: true}) 
-       res.status(200).json(checklist)
+       await checklist.update({name}) 
+       res.redirect('/checklists')
     } catch (error) {
-       res.status(422).json(error)
+       let errors = error.errors 
+       res.status(422).render('checklists/edit', {checklist: {...checklist, errors}})
     }
 })
 
